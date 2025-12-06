@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins',sans-serif; }
+    body { height:100vh; display:flex; justify-content:center; align-items:center; background:#121212; overflow:hidden; position:relative; }
+    .contact-card { background: rgba(0,0,0,0.85); padding:50px 40px; border-radius:20px; box-shadow:0 8px 40px rgba(255,0,0,0.3); width:400px; color:#fff; position:relative; z-index:1; overflow:hidden; }
+    .contact-card h2 { text-align:center; font-weight:600; margin-bottom:40px; font-size:28px; letter-spacing:1px; color:#ff4d4d; }
+    .input-group { position:relative; margin-bottom:30px; }
+    .input-group input, .input-group textarea { width:100%; padding:15px 15px 15px 0; background:transparent; border:none; border-bottom:2px solid rgba(255,255,255,0.3); color:#fff; font-size:16px; outline:none; resize:none; transition: all 0.3s ease; }
+    .input-group input:focus, .input-group textarea:focus { border-bottom:2px solid #ff4d4d; }
+    .input-group label { position:absolute; top:50%; left:0; transform:translateY(-50%); pointer-events:none; color:rgba(255,255,255,0.6); font-size:16px; transition: all 0.3s ease; }
+    .input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label, .input-group textarea:focus ~ label, .input-group textarea:not(:placeholder-shown) ~ label { top:-10px; font-size:12px; color:#ff4d4d; }
+    button { width:100%; padding:15px; border:2px solid #ff4d4d; border-radius:50px; background:transparent; color:#ff4d4d; font-weight:600; font-size:16px; cursor:pointer; transition: all 0.3s ease; }
+    button:hover { background:#ff4d4d; color:#fff; transform:scale(1.05); }
+    .message { text-align:center; margin-top:20px; font-weight:500; color:#00ff90; opacity:0; transform:translateY(-10px); transition:all 0.5s ease; }
+    .message.show { opacity:1; transform:translateY(0); }
+    .ball { position:absolute; width:20px; height:20px; background:rgba(255,0,0,0.6); border-radius:50%; animation:float 6s ease-in-out infinite; opacity:0.7; }
+    @keyframes float { 0%{transform:translateY(0) translateX(0);} 50%{transform:translateY(-50px) translateX(30px);} 100%{transform:translateY(0) translateX(0);} }
+  </style>
+</head>
+<body>
+  <div class="ball" style="top:10%; left:20%; animation-delay:0s;"></div>
+  <div class="ball" style="top:30%; left:70%; animation-delay:2s;"></div>
+  <div class="ball" style="top:60%; left:40%; animation-delay:4s;"></div>
+  <div class="ball" style="top:80%; left:10%; animation-delay:1s;"></div>
+  <div class="ball" style="top:20%; left:80%; animation-delay:3s;"></div>
+
+  <div class="contact-card">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <div class="input-group">
+        <input type="text" id="name" name="name" placeholder=" " required>
+        <label for="name">Name</label>
+      </div>
+      <div class="input-group">
+        <input type="email" id="email" name="email" placeholder=" " required>
+        <label for="email">Email</label>
+      </div>
+      <div class="input-group">
+        <textarea id="message" name="message" placeholder=" " required></textarea>
+        <label for="message">Message</label>
+      </div>
+      <button type="submit">Send Message</button>
+      <div class="message" id="successMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      fetch('/api/contact', {   // <-- must match your backend route
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          successMessage.textContent = "Thank you! Your message has been sent.";
+          successMessage.classList.add('show');
+          form.reset();
+          setTimeout(() => successMessage.classList.remove('show'), 3000);
+        } else {
+          alert("Error: " + (data.msg || "Unknown error"));
+        }
+      })
+      .catch(err => {
+        alert("Error: " + err.message);
+      });
+    });
+  </script>
+</body>
+</html>

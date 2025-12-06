@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Post — Blogger.</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      background: #fde4e1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .post-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff0f0;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .post-container h1 {
+      text-align: center;
+      color: #111;
+    }
+    .post-container img {
+      display: block;
+      margin: 20px auto;
+      border-radius: 10px;
+      max-width: 100%;
+    }
+    .post-container p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #222;
+      white-space: pre-line;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #fff3e0;
+      color: #000;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Blogger.</div>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a href="/posts.html">Menu</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <div id="post-container" class="post-container">
+    <h1 id="post-title"></h1>
+    <img id="post-image" alt="Post image" style="display:none;">
+    <p id="post-content"></p>
+  </div>
+</main>
+
+<footer>
+  Blogger. — Crafted with ❤️
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.2/dist/purify.min.js"></script>
+<script>
+  async function loadPost() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+
+    try {
+      const res = await fetch(`/api/posts/${id}`);
+      const post = await res.json();
+
+      if (!post || post.error) {
+        document.getElementById('post-container').innerHTML = "<p>Post not found.</p>";
+        return;
+      }
+
+      document.getElementById('post-title').innerText = post.title;
+
+      // Display image if exists
+      if (post.image && post.image.trim() !== "") {
+        const img = document.getElementById('post-image');
+        img.src = post.image;
+        img.style.display = 'block';
+      }
+
+      // Render HTML content safely
+      document.getElementById('post-content').innerHTML = DOMPurify.sanitize(post.content || "(No text content)");
+
+    } catch (err) {
+      document.getElementById('post-container').innerHTML = "<p>Error loading post.</p>";
+      console.error(err);
+    }
+  }
+
+  loadPost();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Pink Sassy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #fff0f4;
+      color: #333;
+    }
+
+    header {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #ff5c9e;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: #ff5c9e;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .about-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      padding: 60px 10%;
+      background: linear-gradient(to bottom right, #fff0f4, #ffe6f0);
+    }
+
+    .about-image {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-image img {
+      width: 80%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .about-content {
+      flex: 1;
+      min-width: 300px;
+      color: #444;
+    }
+
+    .about-content h1 {
+      font-size: 2.5rem;
+      color: #ff5c9e;
+      margin-bottom: 20px;
+    }
+
+    .about-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .about-content .highlight {
+      color: #ff8fbc;
+      font-weight: 600;
+    }
+
+    footer {
+      background: #fff;
+      text-align: center;
+      padding: 15px;
+      color: #ff5c9e;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+    }
+
+    @media (max-width: 768px) {
+      .about-section {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .about-image img {
+        width: 90%;
+      }
+
+      .about-content h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Pink Sassy</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="about-section">
+    <div class="about-content">
+      <h1>About <span class="highlight">Pink Sassy</span></h1>
+      <p>Welcome to <strong>Pink Sassy</strong> — a cozy pastel space where creativity, fashion, and thoughts come to life. Every post here is written with love and designed to inspire joy, calm, and beauty.</p>
+      <p>From lifestyle stories to personal reflections, we bring together ideas that help you live more colorfully and confidently. ✨</p>
+      <p><span class="highlight">Join our journey</span> and make every day a little more beautiful!</p>
+    </div>
+
+    <div class="about-image">
+      <img src="images/aboutimg.jpg" alt="About MyBlog">
+    </div>
+  </section>
+
+  <footer>
+      Pink Sassy — Designed with Love.
+  </footer>
+</body>
+</html>

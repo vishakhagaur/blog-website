@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blogger. — Lifestyle</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  
+  <header class="topbar">
+    <div class="brand">Blogger.</div>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/posts.html">Menu</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="hamb" id="hamb">☰</div>
+
+<div class="menu" id="menu">
+  <a href="index.html">Home</a>
+  <a href="posts.html">Posts</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contacts</a>
+</div>
+
+    
+  
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="big">Pink Sassy</h1>
+        <p class="lead">All fashion and lifestyle related blogs in one place.</p>
+        <a class="cta" href="#blogs">Explore</a>
+      </div>
+     <div class="hero-right">
+       <div class="hero-image-wrap">
+          
+  <img src="images/image.png" alt="hero" class="hero-image">
+</div>
+
+
+      </div>
+  
+
+
+    </section>
+
+    <section class="search">
+      <input id="searchInput" placeholder="Search posts or categories..." />
+    </section>
+ 
+ <!-- ✅ NEW POST GRID SECTION -->
+    <section id="blogs" class="recent">
+      <h2>Recent Posts</h2>
+      <div id="posts-list" class="posts-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>Blogger. — Crafted with ❤️</div>
+  </footer>
+
+  <script src="/script.js"></script>
+  
+  <script>
+  // Hamburger menu toggle
+  document.addEventListener("DOMContentLoaded", function() {
+    const hamb = document.getElementById("hamb");
+    const menu = document.getElementById("menu");
+    hamb.addEventListener("click", function() {
+      menu.classList.toggle("active");
+    });
+  });
+  </script>
+
+<script>
+  async function loadPosts() {
+    const res = await fetch('/api/posts');
+    const posts = await res.json();
+    const list = document.getElementById('posts-list');
+    list.innerHTML = '';
+
+    if (!posts.length) {
+      list.innerHTML = "<p>No posts yet.</p>";
+      return;
+    }
+
+    posts.forEach(post => {
+      const card = document.createElement('div');
+      card.classList.add('post-card');
+
+      // Default preview icon
+      let preview = '/images/file-icon.png';
+      let linkHref = `post.html?id=${post.id}`; // default link to post page
+
+      if (post.image) {
+        if (/\.(jpg|jpeg|png|gif)$/i.test(post.image)) {
+          preview = post.image;
+          linkHref = `post.html?id=${post.id}`;
+        } else if (post.image.endsWith('.pdf')) {
+          preview = '/images/pdf-icon.png';
+          linkHref = post.image; // open directly
+        } else if (/\.(docx?|DOCX?)$/.test(post.image)) {
+          preview = '/images/word-icon.png';
+          linkHref = post.image;
+        }
+      }
+
+      card.innerHTML = `
+        <a href="${linkHref}" target="${linkHref.endsWith('.pdf') || linkHref.endsWith('.docx') ? '_blank' : '_self'}" 
+           class="post-link" style="text-decoration:none;color:inherit;">
+          <img src="${preview}" alt="${post.title}" class="post-thumb" style="width:100%;max-width:300px;border-radius:10px;">
+          <h3>${post.title}</h3>
+        </a>
+      `;
+
+      list.appendChild(card);
+    });
+  }
+
+  loadPosts();
+  </script>
+ 
+
+
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<h1>Dashboard</h1>
+
+<h3>Total Website Views: <span id="siteViews"></span></h3>
+
+<h3>Post Views:</h3>
+<ul id="postList"></ul>
+
+<script>
+fetch("/api/dashboard")
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById("siteViews").innerText = data.siteViews;
+
+    for (let id in data.posts) {
+      let li = document.createElement("li");
+      li.textContent = id + " : " + data.posts[id] + " views";
+      document.getElementById("postList").appendChild(li);
+    }
+  });
+</script>

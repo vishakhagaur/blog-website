@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Posts</title>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.2/dist/purify.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background:#f7f7f7; }
+    #posts-list .post-card { 
+      background: #fff; 
+      padding: 15px; 
+      margin-bottom: 10px; 
+      border-radius: 8px; 
+      display:flex; 
+      justify-content: space-between; 
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #postContainer { 
+      background:#fff; 
+      padding:20px; 
+      border-radius:8px; 
+      margin-top:20px; 
+      box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    }
+    .meta { font-size: 0.85em; color:#555; margin-top:4px; }
+    a { text-decoration:none; color:#007BFF; }
+    a:hover { text-decoration:underline; }
+    #searchInput { padding:8px; width:100%; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+  <h1>All Posts</h1>
+  <input type="text" id="searchInput" placeholder="Search posts...">
+  <div id="posts-list"></div>
+
+  <hr>
+  <h2 id="postTitle"></h2>
+  <div class="meta" id="postMeta"></div>
+  <div id="postContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

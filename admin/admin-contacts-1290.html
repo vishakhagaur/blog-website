@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Messages</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      padding: 40px;
+    }
+    .login-box {
+      width: 300px;
+      margin: auto;
+      padding: 20px;
+      background: #222;
+      border-radius: 10px;
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: crimson;
+      color: white;
+      cursor: pointer;
+    }
+    table {
+      margin-top: 30px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid gray;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box" id="loginBox">
+  <h2>Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Enter admin password">
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="dataSection" style="display:none;">
+  <h1>Contact Messages</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>Email</th><th>Message</th><th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="msgTable"></tbody>
+  </table>
+</div>
+
+<script>
+function login() {
+  const pass = document.getElementById("adminPass").value;
+
+  fetch("/api/get-contact-messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password: pass })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) {
+      alert("Wrong password");
+      return;
+    }
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dataSection").style.display = "block";
+
+    const table = document.getElementById("msgTable");
+    data.messages.forEach(m => {
+      table.innerHTML += `
+        <tr>
+          <td>${m.id}</td>
+          <td>${m.name}</td>
+          <td>${m.email}</td>
+          <td>${m.message}</td>
+          <td>${m.created_at}</td>
+        </tr>
+      `;
+    });
+  });
+}
+</script>
+</body>
+</html>
